@@ -1,0 +1,23 @@
+{
+  "displayName": "Branch Watcher",
+  "description": "Antecipa quais branches locais vão conflitar ao serem mescladas na Branch base escolhida.",
+  "view.branches": "Branches",
+  "welcome.loading": "Analisando repositório...",
+  "welcome.noRepo": "Nenhum repositório git encontrado nesta pasta.",
+  "welcome.oldGit": "O Branch Watcher requer git 2.38 ou superior para simular merges. Atualize o git e recarregue a janela.",
+  "welcome.noBase": "A Branch base não foi encontrada neste repositório.\n[Escolher Branch base](command:branchWatcher.chooseBase)",
+  "welcome.empty": "Nenhuma branch local para analisar além da Branch base.",
+  "welcome.filteredEmpty": "Nenhuma branch corresponde aos filtros.\n[Limpar filtros](command:branchWatcher.clearFilters)",
+  "command.filter": "Filtrar por autor ou data",
+  "command.clearFilters": "Limpar filtros",
+  "command.refresh": "Buscar e analisar agora",
+  "command.chooseBase": "Escolher Branch base",
+  "command.chooseRepo": "Escolher repositório observado",
+  "command.cleanup": "Excluir branches integradas",
+  "command.resolve": "Resolver agora (merge da base nesta branch)",
+  "command.deleteBranch": "Excluir branch integrada",
+  "command.openDiff": "Abrir diff",
+  "config.fetchIntervalMinutes": "Intervalo, em minutos, entre fetches automáticos. `0` desliga o fetch automático.",
+  "config.protectedBranches": "Branches que nunca entram na exclusão de integradas. Aceita `*` como curinga (ex. `release/*`).",
+  "config.notifyNewConflicts": "Avisar quando uma branch limpa passar a conflitar com a Branch base."
+}

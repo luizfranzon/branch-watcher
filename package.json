@@ -1,0 +1,267 @@
+{
+  "name": "branch-watcher",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.146.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "l10n": "./l10n",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "branchWatcher",
+          "title": "%displayName%",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "branchWatcher": [
+        {
+          "id": "branchWatcher.branches",
+          "name": "%view.branches%",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.loading%",
+        "when": "!branchWatcher.state || branchWatcher.state == loading"
+      },
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.noRepo%",
+        "when": "branchWatcher.state == noRepo"
+      },
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.oldGit%",
+        "when": "branchWatcher.state == oldGit"
+      },
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.noBase%",
+        "when": "branchWatcher.state == noBase"
+      },
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.empty%",
+        "when": "branchWatcher.state == ready && !branchWatcher.filtered"
+      },
+      {
+        "view": "branchWatcher.branches",
+        "contents": "%welcome.filteredEmpty%",
+        "when": "branchWatcher.state == ready && branchWatcher.filtered"
+      }
+    ],
+    "commands": [
+      {
+        "command": "branchWatcher.refresh",
+        "title": "%command.refresh%",
+        "category": "Branch Watcher",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "branchWatcher.chooseBase",
+        "title": "%command.chooseBase%",
+        "category": "Branch Watcher",
+        "icon": "$(git-branch)"
+      },
+      {
+        "command": "branchWatcher.filter",
+        "title": "%command.filter%",
+        "category": "Branch Watcher",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "branchWatcher.filterActive",
+        "title": "%command.filter%",
+        "category": "Branch Watcher",
+        "icon": "$(filter-filled)"
+      },
+      {
+        "command": "branchWatcher.clearFilters",
+        "title": "%command.clearFilters%",
+        "category": "Branch Watcher",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "branchWatcher.chooseRepo",
+        "title": "%command.chooseRepo%",
+        "category": "Branch Watcher",
+        "icon": "$(repo)"
+      },
+      {
+        "command": "branchWatcher.cleanup",
+        "title": "%command.cleanup%",
+        "category": "Branch Watcher",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "branchWatcher.resolve",
+        "title": "%command.resolve%",
+        "icon": "$(git-pull-request-go-to-changes)"
+      },
+      {
+        "command": "branchWatcher.deleteBranch",
+        "title": "%command.deleteBranch%",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "branchWatcher.openDiff",
+        "title": "%command.openDiff%"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "branchWatcher.chooseRepo",
+          "when": "view == branchWatcher.branches && branchWatcher.multiRepo",
+          "group": "navigation@1"
+        },
+        {
+          "command": "branchWatcher.chooseBase",
+          "when": "view == branchWatcher.branches",
+          "group": "navigation@2"
+        },
+        {
+          "command": "branchWatcher.filter",
+          "when": "view == branchWatcher.branches && branchWatcher.state == ready && !branchWatcher.filtered",
+          "group": "navigation@3"
+        },
+        {
+          "command": "branchWatcher.filterActive",
+          "when": "view == branchWatcher.branches && branchWatcher.state == ready && branchWatcher.filtered",
+          "group": "navigation@3"
+        },
+        {
+          "command": "branchWatcher.refresh",
+          "when": "view == branchWatcher.branches",
+          "group": "navigation@4"
+        },
+        {
+          "command": "branchWatcher.clearFilters",
+          "when": "view == branchWatcher.branches && branchWatcher.filtered"
+        },
+        {
+          "command": "branchWatcher.cleanup",
+          "when": "view == branchWatcher.branches"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "branchWatcher.resolve",
+          "when": "view == branchWatcher.branches && viewItem == branch-conflict",
+          "group": "inline"
+        },
+        {
+          "command": "branchWatcher.resolve",
+          "when": "view == branchWatcher.branches && viewItem == branch-conflict"
+        },
+        {
+          "command": "branchWatcher.deleteBranch",
+          "when": "view == branchWatcher.branches && viewItem == branch-integrated",
+          "group": "inline"
+        },
+        {
+          "command": "branchWatcher.deleteBranch",
+          "when": "view == branchWatcher.branches && viewItem == branch-integrated"
+        },
+        {
+          "command": "branchWatcher.cleanup",
+          "when": "view == branchWatcher.branches && viewItem == group-integrated",
+          "group": "inline"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "branchWatcher.filterActive",
+          "when": "false"
+        },
+        {
+          "command": "branchWatcher.resolve",
+          "when": "false"
+        },
+        {
+          "command": "branchWatcher.deleteBranch",
+          "when": "false"
+        },
+        {
+          "command": "branchWatcher.openDiff",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "%displayName%",
+      "properties": {
+        "branchWatcher.fetchIntervalMinutes": {
+          "type": "number",
+          "default": 10,
+          "minimum": 0,
+          "markdownDescription": "%config.fetchIntervalMinutes%"
+        },
+        "branchWatcher.protectedBranches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "homologacao",
+            "master",
+            "main"
+          ],
+          "markdownDescription": "%config.protectedBranches%"
+        },
+        "branchWatcher.notifyNewConflicts": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.notifyNewConflicts%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "l10n": "npx @vscode/l10n-dev export --outDir ./l10n ./src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.146.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "typescript-eslint": "^8.61.1",
+    "eslint": "^10.5.0",
+    "esbuild": "^0.28.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  }
+}
